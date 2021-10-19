@@ -3,14 +3,13 @@
 # config.sh
 # sender configuration script
 # 2021 Mauricio Asenjo
-# version 0.6
+# version 0.8
 
 # Check if we got a parameter
 if [ -z $1 ]; then
         echo "usage:  $0 <config_file>"
         exit 0
 fi
-
 
 config_file=$1
 
@@ -26,24 +25,25 @@ fi
 
 source ./$config_file
 
-templates=/cache/templates
-bqueueDir=/cache/bqueue
+dicomsenderDir=/cache
+templates=$dicomsenderDir/templates
+bqueueDir=$dicomsenderDir/bqueue
 bqueueWorkersDir=$bqueueDir/workers
-scriptsDir=/cache/scripts
-dicomserverDir=/cache/img
+scriptsDir=$dicomsenderDir/scripts
+dicomserverDir=$dicomsenderDir/img
 
 installConfig ()
 {
-local config=$1 # config file name
-local destDir=$2 # Full path of the destination directory
-local templateFile=$templates/$config.template
-local sourceFile=$templates/$config
+	local config=$1 # config file name
+	local destDir=$2 # Full path of the destination directory
+	local templateFile=$templates/$config.template
+	local sourceFile=$templates/$config
 
-sed "s/###_EI_MOVIL_AET_###/$EI_MOVIL_AET/g" $templateFile > $sourceFile
-sed -i "s/###_EI_MOVIL_HOST_###/$EI_MOVIL_HOST/g" $sourceFile
-sed -i "s/###_EI_CENTRAL_AET_###/$EI_CENTRAL_AET/g" $sourceFile
+	sed "s/###_EI_MOVIL_AET_###/$EI_MOVIL_AET/g" $templateFile > $sourceFile
+	sed -i "s/###_EI_MOVIL_HOST_###/$EI_MOVIL_HOST/g" $sourceFile
+	sed -i "s/###_EI_CENTRAL_AET_###/$EI_CENTRAL_AET/g" $sourceFile
 
-cp $sourceFile $destDir/
+	cp $sourceFile $destDir/
 }
 
 if [ -d $bqueueDir ]; then
@@ -75,23 +75,30 @@ cp $templates/cmove.conf $bqueueDir
 cp $templates/hl7_ian_queue.conf $bqueueDir
 cp $templates/verify.conf $bqueueDir
 cp $templates/dicomserver.sh.conf $dicomserverDir
+cp $templates/parsehl7.sh.conf $dicomserverDir
 
 echo " Copying scripts"
 cp $bqueueDir/utils/dicomserver.sh $dicomserverDir
 cp $bqueueDir/utils/get_studies_by_date.sh $scriptsDir
 
-echo "configuring permissions"
-
-find /cache -name "*.sh" -exec chmod +x {} \;
-chgrp -R smbgroup $bqueueDir
-chmod -R ug+rw $bqueueDir
-
 echo " Creating symlinks "
 cd $bqueueWorkersDir
 ln -s dicomsender2.sh dicomsender2-to-falp.sh
 ln -s cmove.sh cmove-to-dicomqueue.sh
-cd /cache
+cd $dicomsenderDir
 ln -s scripts/senderstartup.sh senderstartup.sh
+
+echo " Initializing queues"
+
+cd $bqueueDir
+./bqcontrol.sh startall
+./bqcontrol.sh stopall
+
+echo "configuring permissions"
+
+find $dicomsenderDir -name "*.sh" -exec chmod +x {} \;
+chgrp -R smbgroup $bqueueDir
+chmod -R ug+rw $bqueueDir
 
 echo "Done"
 
