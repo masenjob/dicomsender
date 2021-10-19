@@ -1,0 +1,20 @@
+#source pacs options
+source_aet=###_EI_MOVIL_AET_###
+source_host=###_EI_MOVIL_HOST_###
+source_port=104
+# Optional source ssl options
+#source_ssl=<TRUE|FALSE>
+#source_trustore=/root/certs/falpKeystore.pkcs12
+#source_trustpass=4gf42w1n
+#destination pacs options
+dest_aet=###_EI_CENTRAL_AET_###
+dest_host=190.208.16.152 # Destination pacs hostname or ip address
+dest_port=2762 # Destination pacs AETITLE
+# Optional destination ssl options
+dest_ssl=TRUE
+dest_trustore=/root/certs/falpKeystore.pkcs12
+dest_trustpass=4gf42w1n
+calling_ae=FALPSENDER1
+timeout=10m # timeout in minutes
+study_id=SUID # Study query parameter is Accession number ACC or StudyUID SUID
+tempdir=/tmp

@@ -1,0 +1,19 @@
+#### CONFIGURATION ####
+#AE of the local movescu (source pacs must be configured to accept assoc from this AE)
+calling_ae=FALPSENDER1
+# Source PACS (where we will cmove from)
+source_ae=###_EI_MOVIL_AET_###
+source_ip=###_EI_MOVIL_HOST_###
+source_port=104
+#Destination PACS (where we will cmove to)
+dest_ae=FALPSENDER1
+# Query by (Accession number: "ACC" , Study UID: "SUID")
+query="SUID"
+#time to wait for cmove completion before aborting it
+timeout=10m
+# delay in seconds:
+# delay=20
+# Optional verification only for locally stored studies
+verify=1
+source_dir="/cache/img/incoming"
+### END OF CONFIGURATION ###
