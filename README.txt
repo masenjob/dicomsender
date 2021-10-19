@@ -1,14 +1,7 @@
 FALPSENDER script README
-version 1
+version 2
 
-1- Tomar nota de:
-AETitle de EI Camion
-ip ei camion
-AETitle de pipeline Falp
-
-2- copiar cache<version>.tar.gz en /root ,
-en linux: 
-
+1- Detener todos los servicios y mover directorio /cache:
 cd /cache/bqueue
 ./bqcontrol.sh stopall
 cd /cache/img
@@ -16,22 +9,18 @@ kill $(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
 command rm dicomserver.sh.pid
 command rm dicomserver.sh.log
 mv /cache /cache.bak
-tar xvfz /root/cache<version>.tar.gz
-
-3- Generar en el directorio /cache, archivo de texto dee nombre "MOVIL(n).conf" donde (n) es el numero de móvil, con los siguientes parámetros:
-
-EI_MOVIL_AET=AETitle de EI Camion
-EI_MOVIL_HOST=ip ei camion
-EI_CENTRAL_AET=AETitle de pipeline Falp
-
-Ejemplo: para MOVIL1 , generamos /cache/MOVIL1.conf con lo siguiente:
-
-EI_MOVIL_AET=TTXMNQYWL
-EI_MOVIL_HOST=192.168.50.154
-EI_CENTRAL_AET=MOVIL1
 
 
-4- ejecutamos ( en /cache )
+2- Obtener dicomsender-main.zip , descomprimir en /
+
+wget https://github.com/masenjob/dicomsender/archive/refs/heads/main.zip -O dicomsender.zip
+
+unzip dicomsender.zip -d /
+mv /dicomsender-main /cache
+
+
+3- iniciar configurador:
+cd /cache/config
 
 ./config.sh <archivo de configuracion>
 
@@ -39,18 +28,20 @@ Ejemplo: para móvil 1:
 
 ./config.sh MOVIL1.conf
 
-5- revisar que crontab contenga la linea:
+4- revisar que crontab contenga la linea:
 
 */5 * * * * /cache/scripts/retry_failed.sh > /var/log/dicomserver_retry.log
 
-6- reiniciar :
-reboot
+5- Iniciar servicios:
+
+cd /cache/scripts
+./startall.sh
 
 
 ----
 notas
 
-- para ejecutar monitord de colas:
+- para ejecutar monitor de colas:
 
 cd /cache/bqueue
 ./monitor.sh
