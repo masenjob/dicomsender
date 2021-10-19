@@ -1,13 +1,15 @@
 FALPSENDER script README
-version 2
+version 3
 
 1- Detener todos los servicios y mover directorio /cache:
+
 cd /cache/bqueue
 ./bqcontrol.sh stopall
 cd /cache/img
 kill $(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
 command rm dicomserver.sh.pid
 command rm dicomserver.sh.log
+rm -rf /cache.bak
 mv /cache /cache.bak
 
 
@@ -22,17 +24,14 @@ mv /dicomsender-main /cache
 3- iniciar configurador:
 cd /cache/config
 
-./config.sh <archivo de configuracion>
+bash config.sh <archivo de configuracion>
 
 Ejemplo: para móvil 1:
 
 ./config.sh MOVIL1.conf
 
-4- revisar que crontab contenga la linea:
 
-*/5 * * * * /cache/scripts/retry_failed.sh > /var/log/dicomserver_retry.log
-
-5- Iniciar servicios:
+4- Iniciar servicios:
 
 cd /cache/scripts
 ./startall.sh
@@ -56,7 +55,7 @@ cd /cache/scripts
 cd /cache/scripts
 ./get_studies_by_date.sh 20211010
 
-- para obtener unalista de estudios a revisar para un rango de fechas (ejemplo: desde el 5 de octubre al 7 de octubre del 2021):
+- para obtener una lista de estudios a revisar para un rango de fechas (ejemplo: desde el 5 de octubre al 7 de octubre del 2021):
 
 cd /cache/scripts
 ./get_studies_by_date.sh 20211005-20211007
