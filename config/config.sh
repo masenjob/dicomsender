@@ -3,7 +3,7 @@
 # config.sh
 # sender configuration script
 # 2021 Mauricio Asenjo
-# version 0.10
+# version 0.11
 
 # Check if we got a parameter
 if [ -z $1 ]; then
@@ -79,7 +79,7 @@ cp $templates/cmove.conf $bqueueDir
 cp $templates/hl7_ian_queue.conf $bqueueDir
 cp $templates/verify.conf $bqueueDir
 cp $templates/dicomserver.sh.conf $dicomserverDir
-cp $templates/parsehl7.sh.conf $dicomserverDir
+cp $templates/parsehl7.sh.conf $bqueueWorkersDir
 
 echo " Copying scripts"
 cp $bqueueDir/utils/dicomserver.sh $dicomserverDir
