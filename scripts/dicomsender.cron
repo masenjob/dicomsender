@@ -1,5 +1,5 @@
 # dicomsender crontab
 SHELL=/bin/bash
 
-*/5 * * * * root BASH_ENV=/etc/profile	/cache/scritps/retry_failed.sh > /var/log/dicomserver_retry.log
+*/5 * * * * root BASH_ENV=/etc/profile	/cache/scripts/retry_failed.sh > /var/log/dicomserver_retry.log
 00 * * * * root BASH_ENV=/etc/profile	/cache/scripts/get_studies_by_date.sh > /var/log/get_studies.log

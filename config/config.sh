@@ -3,7 +3,7 @@
 # config.sh
 # sender configuration script
 # 2021 Mauricio Asenjo
-# version 0.9
+# version 0.10
 
 # Check if we got a parameter
 if [ -z $1 ]; then
@@ -59,8 +59,6 @@ fi
 echo "configuring permissions"
 
 find $dicomsenderDir -name "*.sh" -exec chmod +x {} \;
-chgrp -R smbgroup $bqueueDir
-chmod -R ug+rw $bqueueDir
 
 echo "installing cmove-to-dicomqueue.sh configuration"
 installConfig cmove-to-dicomqueue.sh.conf $bqueueWorkersDir
@@ -99,6 +97,10 @@ echo " Initializing queues"
 cd $bqueueDir
 ./bqcontrol.sh startall
 ./bqcontrol.sh stopall
+
+echo " Setting queue permissions"
+chgrp -R smbgroup $bqueueDir
+chmod -R ug+rw $bqueueDir
 
 echo " Installing new crontab"
 crontab -r # clear existing crontab file
