@@ -25,7 +25,7 @@ cd /cache/config
 bash config.sh <archivo de configuracion>
 
 Ejemplo: para móvil 1:
-./config.sh MOVIL1.conf
+bash config.sh MOVIL1.conf
 
 
 4- Iniciar servicios:
