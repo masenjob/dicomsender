@@ -3,7 +3,7 @@
 # config.sh
 # sender configuration script
 # 2021 Mauricio Asenjo
-# version 0.12
+# version 0.13
 
 # Check if we got a parameter
 if [ -z $1 ]; then
@@ -56,8 +56,10 @@ else
 	mv /cache/bqueue-main $bqueueDir
 fi
 
-echo "configuring permissions"
+echo "Creating Dicomserver dir"
+mkdir -p $dicomsenderDir/img/incoming
 
+echo "configuring permissions"
 find $dicomsenderDir -name "*.sh" -exec chmod +x {} \;
 
 echo "installing cmove-to-dicomqueue.sh configuration"
@@ -73,7 +75,6 @@ echo "installing get_studies_by_date.sh.conf configuration"
 installConfig get_studies_by_date.sh.conf $scriptsDir
 
 echo " Copying config files"
-
 cp $templates/send2falp.conf $bqueueDir
 cp $templates/cmove.conf $bqueueDir
 cp $templates/hl7_ian_queue.conf $bqueueDir
@@ -94,7 +95,6 @@ cd $dicomsenderDir
 ln -s scripts/senderstartup.sh senderstartup.sh
 
 echo " Initializing queues"
-
 cd $bqueueDir
 ./bqcontrol.sh startall
 ./bqcontrol.sh stopall
