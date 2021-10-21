@@ -3,7 +3,7 @@
 # installsender.sh
 # sender installation script
 # 2021 Mauricio Asenjo
-# version 0.3
+# version 0.4
 
 dicomsenderDir="/cache"
 
@@ -21,7 +21,10 @@ if [ -d $dicomsenderDir ] ; then
 	fi
 	cd /cache/img
 	./dicomserver.sh stop
-	kill $(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
+	dmpid=$(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
+	if [ ! -z "$dmpid" ] ; then
+			kill $dmpid
+	fi
 	echo "Backing up $dicomsenderDir"
 	cd /
 	rm -rf /$dicomsenderDir".bak"
