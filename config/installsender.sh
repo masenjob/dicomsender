@@ -3,7 +3,7 @@
 # installsender.sh
 # sender installation script
 # 2021 Mauricio Asenjo
-# version 0.2
+# version 0.3
 
 dicomsenderDir="/cache"
 
@@ -12,10 +12,13 @@ echo ""
 
 if [ -d $dicomsenderDir ] ; then
 	echo "dicomsender dir $dicomsenderDir found"
-	echo "Stopping queues"	
-	cd $dicomsenderDir/bqueue
-	./bqcontrol.sh stopall
-	echo "Stopping Dicomserver"
+	if [ -d $dicomsenderDir/bqueue ] ; then
+		echo "Bqueue dir found"
+		echo "Stopping queues"	
+		cd $dicomsenderDir/bqueue
+		./bqcontrol.sh stopall
+		echo "Stopping Dicomserver"
+	fi
 	cd /cache/img
 	./dicomserver.sh stop
 	kill $(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
