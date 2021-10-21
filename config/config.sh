@@ -3,7 +3,7 @@
 # config.sh
 # sender configuration script
 # 2021 Mauricio Asenjo
-# version 0.11
+# version 0.12
 
 # Check if we got a parameter
 if [ -z $1 ]; then
@@ -84,6 +84,7 @@ cp $templates/parsehl7.sh.conf $bqueueWorkersDir
 echo " Copying scripts"
 cp $bqueueDir/utils/dicomserver.sh $dicomserverDir
 cp $bqueueDir/utils/get_studies_by_date.sh $scriptsDir
+cp $dicomsenderDir/config/installsender.sh /
 
 echo " Creating symlinks "
 cd $bqueueWorkersDir
