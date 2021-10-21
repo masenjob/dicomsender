@@ -1,25 +1,15 @@
-FALPSENDER script README
-version 3.1
+FALPSENDER SCRIPT README
 
-1- Detener todos los servicios y mover directorio /cache:
+INSTRUCCIONES DE INSTALACION
 
-cd /cache/bqueue
-./bqcontrol.sh stopall
-cd /cache/img
-kill $(ps ax | grep storescp | grep "FALPSENDER1:11112" | awk '{print $1}')
+1- Descargar y ejecutar script de instalación:
+
 cd /
-rm -rf /cache.bak
-mv /cache /cache.bak
+wget https://github.com/masenjob/dicomsender/raw/main/config/installsender.sh -O installsender.sh
+bash installsender.sh
 
 
-2- Obtener dicomsender-main.zip , descomprimir en /
-
-wget https://github.com/masenjob/dicomsender/archive/refs/heads/main.zip -O dicomsender.zip
-unzip dicomsender.zip -d /
-mv /dicomsender-main /cache
-
-
-3- iniciar configurador:
+2- iniciar configurador:
 
 cd /cache/config
 bash config.sh <archivo de configuracion>
@@ -28,10 +18,10 @@ Ejemplo: para móvil 1:
 bash config.sh MOVIL1.conf
 
 
-4- Iniciar servicios:
+3- Iniciar servicios y poblar colas con estudios de ultimos 2 dias:
 
-cd /cache/scripts
-./startall.sh
+/cache/scripts/startall.sh
+/cache/scripts/get_studies_by_date.sh
 
 
 ----
@@ -44,8 +34,7 @@ cd /cache/bqueue
 
 - para obtener una lista de estudios a revisar de los ultimos dos días, poniendolos en la cola de verificación:
 
-cd /cache/scripts
-./get_studies_by_date.sh
+/cache/scripts/get_studies_by_date.sh
 
 - para obtener una lista de estudios a revisar para cualquier otra fecha (ejemplo: 10 de octubre del 2021):
 
