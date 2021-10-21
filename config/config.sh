@@ -51,6 +51,10 @@ if [ -d $bqueueDir ]; then
 else
 	echo "Downloading a new bqueue distribution"
 	wget https://github.com/masenjob/bqueue/archive/refs/heads/main.zip -O bqueue-main.zip
+	if [ ! $? -eq 0 ] ; then
+		echo "Cannot download bqueue distribution. Aborting"
+		exit $?
+	fi
 	echo "Installing a new bqueue distribution"
 	unzip bqueue-main.zip -d /cache
 	mv /cache/bqueue-main $bqueueDir
