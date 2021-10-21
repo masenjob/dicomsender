@@ -3,7 +3,7 @@
 # installsender.sh
 # sender installation script
 # 2021 Mauricio Asenjo
-# version 0.1
+# version 0.2
 
 dicomsenderDir="/cache"
 
@@ -13,7 +13,7 @@ echo ""
 if [ -d $dicomsenderDir ] ; then
 	echo "dicomsender dir $dicomsenderDir found"
 	echo "Stopping queues"	
-	cd $dicomseenderDir/bqueue
+	cd $dicomsenderDir/bqueue
 	./bqcontrol.sh stopall
 	echo "Stopping Dicomserver"
 	cd /cache/img
