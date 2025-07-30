@@ -2,4 +2,4 @@
 SHELL=/bin/bash
 
 */5 * * * * root BASH_ENV=/etc/profile	/cache/scripts/retry_failed.sh > /var/log/dicomserver_retry.log
-00 * * * * root BASH_ENV=/etc/profile	/cache/scripts/get_studies_by_date.sh  echo $(date -d "3 days ago" +%Y%m%d)- > /var/log/get_studies.log
+*/12 * * * * root BASH_ENV=/etc/profile	/cache/scripts/get_studies_by_date.sh  $(date -d "3 days ago" +\%Y\%m\%d)- > /var/log/get_studies.log
