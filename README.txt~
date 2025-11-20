@@ -51,5 +51,6 @@ cd /cache/scripts
 cd /cache/scripts
 ./stopall.sh
 ./resetall.sh
+
 mv /cache /cache.old
 
